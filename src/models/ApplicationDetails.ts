@@ -4,7 +4,6 @@ interface ApplicationDetails {
     sesReferral?: string; //Child Reference to Special Education Services
     previousSchool?: string;
     previousYearLevel?: string; // Year level at previous school
-    previousSchoolReport?: string;
     learningSupport?: string;
     esol: boolean; // English as second language
     learningDifficulties: string;

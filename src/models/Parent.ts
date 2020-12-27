@@ -4,14 +4,14 @@ interface Parent {
     relationshipToChild: string;
     countryOfBirth: string;
     residentialAddress: string;
-    postalAddress: number,
+    postalAddress: string,
     dateOfResidence: Date;
     homePhone: string;
     cellPhone: string;
-    occupiation: string;
+    occupation: string;
     employer: string;
     workPhone: string;
-    emailContact: string;
+    contactEmail: string;
     maritalStatus: number;
     applicationId: string;
 }   
