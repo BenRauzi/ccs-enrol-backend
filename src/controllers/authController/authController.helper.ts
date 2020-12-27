@@ -1,9 +1,10 @@
 import * as dotenv from "dotenv"
 import * as bcrypt from "bcrypt"
 
+
 dotenv.config()
 
-export const hashPassword = (password: string) => {
+export const hashPassword = (password: string): Promise<string> => {
     return new Promise<string>((resolve, reject) => {
         bcrypt.hash(password, 10, (err: Error, hashedPassword) => {
             if(err) reject(err)
@@ -12,7 +13,7 @@ export const hashPassword = (password: string) => {
     })
 }
 
-export const verifyPassword = (password: string, hash: string) => {
+export const verifyPassword = (password: string, hash: string): Promise<boolean> => {
     return new Promise<boolean>((resolve, reject) => {
         bcrypt.compare(password, hash, (err: Error, isValid: boolean) => {
             if(err) reject(err)
