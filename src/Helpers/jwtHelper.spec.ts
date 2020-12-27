@@ -1,6 +1,6 @@
 import User from "../models/User"
 import { jwtSign, jwtVerify } from "./jwtHelper"
-import mockUser from "../models/mocks/user.json"
+import mockUser from "../models/mocks/User.json"
 
 const testUser: User = mockUser
 
