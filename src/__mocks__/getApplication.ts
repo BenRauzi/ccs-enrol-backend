@@ -5,7 +5,7 @@ const getApplication = (): Promise<Application> => {
         id: "fb9985e2-88e0-4dbb-b34e-d6f35ee3a4b3",
         userid: "fb9985e2-88e0-4dbb-b34e-d6f35ee3a4b3",
         child: {
-            id: "asd",
+            id: "fb9985e2-88e0-4dbb-b34e-d6f35ee3a4b3",
             lastName: "Last",
             firstName: "First",
             prefName: "First",
@@ -38,6 +38,23 @@ const getApplication = (): Promise<Application> => {
                 maritalStatus: 1,
                 applicationId: "fb9985e2-88e0-4dbb-b34e-d6f35ee3a4b3"
 
+            },
+            {
+                id: "fb9985e2-88e0-4dbb-b34e-d6f35ee3a4b3",
+                name: "Parent Name 2",
+                relationshipToChild: "Mother",
+                countryOfBirth: "New Zealand",
+                residentialAddress: "100 Main Street, Kelvin Grove, Palmerston North",
+                postalAddress: "100 Main Street, Kelvin Grove, Palmerston North",
+                dateOfResidence: new Date(),
+                homePhone: "000 000 0000",
+                cellPhone: "000 000 0000",
+                occupation: "Parent Occupation 2",
+                employer: "Parent Employer 2",
+                workPhone: "000 000 0000",
+                contactEmail: "parent2@mail-provider.com",
+                maritalStatus: 1,
+                applicationId: "fb9985e2-88e0-4dbb-b34e-d6f35ee3a4b3"
             }
         ],
         caregiver: {
@@ -85,6 +102,20 @@ const getApplication = (): Promise<Application> => {
             custodialAccess: "None",
             disciplinaryHistory: "None",
             dayTripPerms: "None"
+        },
+        preference: {
+            id: "fb9985e2-88e0-4dbb-b34e-d6f35ee3a4b3",
+            familyBelief: 0,
+            fatherBelief: 0,
+            motherBelief: 0,
+            caregiverBelief: 0,
+            childBelief: 0,
+            churchInfo: "Church Name"
+        },
+        earlyChildhood: {
+            names: "ECE 1, ECE 2",
+            hours: 10,
+            location: "PN"
         },
         privacy: {
             useOfInfo: true,
