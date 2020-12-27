@@ -1,7 +1,6 @@
 import * as dotenv from "dotenv"
 import * as bcrypt from "bcrypt"
 
-
 dotenv.config()
 
 export const hashPassword = (password: string) => {
