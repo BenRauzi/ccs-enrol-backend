@@ -1,18 +1,8 @@
 import User from "../models/User"
 import { jwtSign, jwtVerify } from "./jwtHelper"
+import mockUser from "../models/mocks/user.json"
 
-const testUser: User = {
-    id: "fb9985e2-88e0-4dbb-b34e-d6f35ee3a4b3",
-    username: "demo1",
-    accountType: 0,
-    firstName: "Demo",
-    lastName: "One",
-    email: "demo1@techne.nz",
-    balance: 0,
-    points: 0,
-    schoolId: "test",
-    mode: 0
-}
+const testUser: User = mockUser
 
 test("Signed User Data Should Be Unchanged", async () => {
     const jwt: string = jwtSign(testUser)  
