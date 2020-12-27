@@ -8,7 +8,9 @@ interface User {
     email: string;
     balance: number;
     points: number;
+    schoolId?: string;
     mode: number;
+    iat?: number
 }
 
 export default User

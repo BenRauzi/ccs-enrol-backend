@@ -1,6 +1,6 @@
 import App from './app'
-import AuthController from './controllers/authController'
-import UserController from './controllers/userController'
+import AuthController from './controllers/authController/authController'
+import UserController from './controllers/userController/userController'
 import User from './models/User'
 import SqlService from './services/sqlService'
 
