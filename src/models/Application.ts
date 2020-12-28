@@ -1,7 +1,7 @@
 import ApplicationDetails from "./ApplicationDetails"
 import Caregiver from "./Caregiver"
 import Child from "./Child"
-import Documents from "./Documents"
+import Document from "./Document"
 import EarlyChildhood from "./EarlyChildhood"
 import EmergencyContact from "./EmergencyContact"
 import Parent from "./Parent"
@@ -23,7 +23,7 @@ interface Application {
     declaration: boolean;
     declarationName: string;
     declarationDate: Date;
-    documents: Documents;
+    documents: Array<Document>;
     status: number;
 }
 

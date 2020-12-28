@@ -127,7 +127,7 @@ const getApplication = (): Promise<Application> => {
         declaration: true,
         declarationName: "Test Parent",
         declarationDate: new Date(),
-        documents: {},
+        documents: [],
         status: 0
     }
     return Promise.resolve(application)

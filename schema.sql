@@ -44,11 +44,12 @@ CREATE TABLE IF NOT EXISTS `children` (
   `pref_name` varchar(100),
   `sex` tinyint(1) NOT NULL,
   `date_of_birth` datetime NOT NULL,
+  `date_of_arrival` datetime NOT NULL,
   `country_of_birth` varchar(50) NOT NULL,
   `ethnic_origins` varchar(100),
   `iwi_affiliations` varchar(100),
   `languages` varchar(100),
-  `firstLanguage` varchar(30),
+  `first_language` varchar(30),
   CONSTRAINT FK_children_applications_id FOREIGN KEY (id)
   REFERENCES applications(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -83,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `caregivers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `emergency_contacts` (
-  `id` varchar(100) PRIMARY KEY,
+  `id` int(11) AUTO_INCREMENT PRIMARY KEY,
   `name` varchar(100) NOT NULL,
   `type` tinyint(10) NOT NULL,
   `phone` varchar(20),
@@ -116,6 +117,7 @@ CREATE TABLE IF NOT EXISTS `application_details` (
 -- Storing Documents in DB not best practice but this is simple and small scale
 CREATE TABLE IF NOT EXISTS `documents` (
   `id` int(11) AUTO_INCREMENT PRIMARY KEY,
+  `name` varchar(100),
   `application_id` varchar(100),
   `type` tinyint(10),
   `document` mediumblob,
@@ -128,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `preference_info` (
   `family_belief` tinyint(10),
   `father_belief` tinyint(10),
   `mother_belief` tinyint(10),
-  `caregiver_belef` tinyint(10),
+  `caregiver_belief` tinyint(10),
   `child_belief` tinyint(10),
   `church_info` varchar(128),
   CONSTRAINT FK_preference_info_applications_id FOREIGN KEY (id)
@@ -139,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `ece_info` (
   `id` varchar(100) PRIMARY KEY,
   `type` tinyint(10),
   `name` varchar(128),
-  `phone` varchar(300),
+  `hours` varchar(300),
   CONSTRAINT FK_ece_info_applications_id FOREIGN KEY (id)
   REFERENCES applications(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
