@@ -6,7 +6,7 @@
       "strict": false,
       "target": "es2017",
       "resolveJsonModule": true,
-      "esModuleInterop": true
+      // "esModuleInterop": true
     },
     "compileOnSave": true,
     "include": [

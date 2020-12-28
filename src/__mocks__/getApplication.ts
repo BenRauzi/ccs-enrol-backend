@@ -122,6 +122,7 @@ const getApplication = (): Promise<Application> => {
             displayOfWork: true,
             photoPublication: true,
             confirmation: true,
+            photoPublicationReason: "asd"
         },
         declaration: true,
         declarationName: "Test Parent",

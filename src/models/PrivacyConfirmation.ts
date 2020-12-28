@@ -2,7 +2,7 @@ interface PrivacyConfirmation {
     useOfInfo: boolean;
     displayOfWork: boolean;
     photoPublication: boolean;
-    photoPublicationReason: string;
+    photoPublicationReason?: string;
     confirmation: boolean;
 }
 

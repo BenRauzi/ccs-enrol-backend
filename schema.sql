@@ -14,14 +14,13 @@ DROP TABLE IF EXISTS `users`;
 SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` varchar(50) NOT NULL PRIMARY KEY,
+  `id` varchar(100) NOT NULL PRIMARY KEY,
   `username` varchar(20) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
   `accountType` varchar(14) NOT NULL,
   `lastName` varchar(50) NOT NULL,
   `firstName` varchar(50) NOT NULL,
   `email` varchar(30) NOT NULL,
-  `profileImage` varchar(50) DEFAULT NULL,
   UNIQUE KEY `Username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -31,8 +30,8 @@ CREATE TABLE IF NOT EXISTS `applications` (
   `other_children` varchar(100) DEFAULT NULL,
   `use_of_info` tinyint(1) NOT NULL,
   `display_of_work` tinyint(1) NOT NULL,
-  `photoPublication` tinyint(1) NOT NULL,
-  `photoPublicationReason` varchar(100),
+  `photo_publication` tinyint(1) NOT NULL,
+  `photo_publication_reason` varchar(100),
   `confirmation` tinyint(1) NOT NULL,
   CONSTRAINT FK_applications_users_id FOREIGN KEY (user_id)
   REFERENCES users(id)
