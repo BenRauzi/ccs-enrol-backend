@@ -7,7 +7,6 @@ import { checkToken, jwtSign,  } from '../../Helpers/jwtHelper'
 import { hashPassword, verifyPassword } from "./authController.helper"
 
 import User from '../../models/User'
-import user from '../../models/Mocks/User'
 
 dotenv.config()
 
