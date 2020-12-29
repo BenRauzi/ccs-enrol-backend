@@ -3,7 +3,7 @@ import { checkToken } from '../../Helpers/jwtHelper'
 import Application from '../../models/Application'
 import SqlService from '../../services/sqlService'
 import { v4 as uuid } from 'uuid'
-import { ApplyCodeActionCommandResult } from 'typescript'
+import ApplicationSummary from '../../models/ApplicationSummary'
 
 class UserController {
     public path = '/app';
@@ -20,9 +20,22 @@ class UserController {
         this.router.get(`${this.path}`, checkToken, this.getApplicationById)
         this.router.get(`${this.path}/all`, checkToken, this.getAllApplications)
         this.router.get(`${this.path}/active`, checkToken, this.getActiveApplications)
+        this.router.get(`${this.path}/user`, checkToken, this.getUserApplications)
 
         this.router.post(`${this.path}/create`, checkToken, this.createApp)
         this.router.post(`${this.path}/update`, checkToken, this.updateApp)
+    }
+
+    getUserApplications = async (req: express.Request, res: express.Response): Promise<express.Response> => {
+        const { id } = req.user
+
+        try {
+            const applications: Array<ApplicationSummary> = await this.sql.findMany("applications", { userid: id })
+            return res.send(applications.map(({id, child}) => ({id, child}))) 
+        } catch(err) {
+            console.log(err)
+            return res.sendStatus(500)
+        }
     }
 
     createApp = async (req: express.Request, res: express.Response): Promise<express.Response> => {
