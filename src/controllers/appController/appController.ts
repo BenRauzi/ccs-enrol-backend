@@ -5,7 +5,7 @@ import SqlService from '../../services/sqlService'
 import { v4 as uuid } from 'uuid'
 import Application from '../../models/Application'
 import { checkToken } from '../../Helpers/jwtHelper'
-import { combineArrays } from './appController.helper'
+import { combineArrays, reconstructApplication } from './appController.helper'
 
 dotenv.config()
 class AppController {
@@ -21,6 +21,54 @@ class AppController {
 
     public intializeRoutes(): void { 
         this.router.post(`${this.path}/create`, checkToken, this.createApp)
+        this.router.get(`${this.path}`, checkToken, this.getApplicationById)
+    }
+
+    getApplicationById = async (req: express.Request, res: express.Response): Promise<express.Response> => {
+        const { id } = req.query
+
+        const appInfo = await this.sql.query(`SELECT applications.*,
+            children.*,
+            application_details.*,
+            preference_info.*,
+            ece_info.name as ece_name,
+            ece_info.type as ece_type,
+            ece_info.hours as ece_hours,
+            caregivers.name as caregiver_name,
+            caregivers.address as caregiver_address,
+            caregivers.phone as caregiver_phone
+            
+            FROM applications
+            INNER JOIN children
+            ON applications.id = children.id
+            INNER JOIN preference_info
+            ON applications.id = preference_info.id
+            INNER JOIN application_details
+            ON applications.id = application_details.id
+            INNER JOIN ece_info
+            ON applications.id = ece_info.id
+            INNER JOIN caregivers
+            ON applications.id = caregivers.id
+            
+            WHERE applications.id = ?`, [
+                id
+            ])
+
+        const parentInfo = await this.sql.query(`
+            SELECT name, relationship as relationship_to_child, country_of_birth, residential_address, date_of_residence, postal_address,
+            home_phone, cell_phone, work_phone, occupation, employer, contact_email, marital_status
+            FROM parents WHERE application_id = ?`, [
+            id
+        ])
+
+        const emergencyContactInfo = await this.sql.query(`
+            SELECT name, type, phone
+            FROM emergency_contacts WHERE application_id = ?`, [
+            id
+        ])
+        // console.log(appInfo.map(x => ({...x})))
+        const application = reconstructApplication(appInfo[0], parentInfo, emergencyContactInfo)
+        return res.send(application)
     }
 
     createApp = async (req: express.Request, res: express.Response): Promise<express.Response> => {
@@ -71,14 +119,15 @@ class AppController {
 
             for(const parent of parents) {
                 await this.sql.query(`
-                    INSERT INTO parents (id, name, relationship, country_of_birth, residential_address, postal_address, home_phone, cell_phone, work_phone, occupation, employer, contact_email, marital_status, application_id)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    INSERT INTO parents (id, name, relationship, country_of_birth, residential_address, date_of_residence, postal_address, home_phone, cell_phone, work_phone, occupation, employer, contact_email, marital_status, application_id)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?)
                     `, [
                     uuid(), 
                     parent.name,
                     parent.relationshipToChild,
                     parent.countryOfBirth,
                     parent.residentialAddress,
+                    parent.dateOfResidence,
                     parent.postalAddress,
                     parent.homePhone,
                     parent.cellPhone,
@@ -150,12 +199,12 @@ class AppController {
                     details.disciplinaryHistory,
                     details.dayTripPerms
                 ])  
+                
             return res.send(req.user)
         } catch(err) {
             console.log(err)
             return res.sendStatus(500)
         }
-     
     }
 }
 

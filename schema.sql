@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS `parents` (
   `relationship` varchar(100) NOT NULL,
   `country_of_birth` varchar(50) NOT NULL,
   `residential_address` varchar(100) NOT NULL,
+  `date_of_residence` datetime NOT NULL,
   `postal_address` varchar(100),
   `home_phone` varchar(20),
   `cell_phone` varchar(20),
@@ -141,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `ece_info` (
   `id` varchar(100) PRIMARY KEY,
   `type` tinyint(10),
   `name` varchar(128),
-  `hours` varchar(300),
+  `hours` tinyint(11),
   CONSTRAINT FK_ece_info_applications_id FOREIGN KEY (id)
   REFERENCES applications(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

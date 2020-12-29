@@ -1,9 +1,9 @@
 interface ApplicationDetails {
-    id: string;
+    id?: string;
     reasonForApplication: string;
     sesReferral?: string; //Child Reference to Special Education Services
     previousSchool?: string;
-    previousYearLevel?: string; // Year level at previous school
+    previousYearLevel?: number; // Year level at previous school
     learningSupport?: string;
     esol: boolean; // English as second language
     learningDifficulties: string;
@@ -14,7 +14,7 @@ interface ApplicationDetails {
     medication: string;
     custodialAccess: string;
     disciplinaryHistory: string;
-    dayTripPerms: string;
+    dayTripPerms: boolean;
 
 }
 

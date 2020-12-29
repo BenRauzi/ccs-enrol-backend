@@ -1,7 +1,7 @@
 interface EarlyChildhood {
     names: string;
     hours: number;
-    location: string;
+    location: number;
 }
 
 export default EarlyChildhood

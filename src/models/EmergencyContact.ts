@@ -1,5 +1,5 @@
 interface EmergencyContact {
-    id: string;
+    id?: string;
     type: number;
     name: string;
     phone: string;

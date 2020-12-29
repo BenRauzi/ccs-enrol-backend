@@ -1,5 +1,5 @@
 interface Parent {
-    id: string;
+    id?: string;
     name: string;
     relationshipToChild: string;
     countryOfBirth: string;
@@ -13,7 +13,7 @@ interface Parent {
     workPhone: string;
     contactEmail: string;
     maritalStatus: number;
-    applicationId: string;
+    applicationId?: string;
 }   
 
 export default Parent

@@ -1,5 +1,5 @@
 interface PreferenceInfo {
-    id: string;
+    id?: string;
     familyBelief: number;
     fatherBelief: number;
     motherBelief: number;

@@ -1,5 +1,5 @@
 interface Child {
-    id: string;
+    id?: string;
     lastName: string;
     firstName: string;
     prefName: string;
