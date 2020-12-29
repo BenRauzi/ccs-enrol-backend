@@ -3,6 +3,7 @@ import { checkToken } from '../../Helpers/jwtHelper'
 import Application from '../../models/Application'
 import SqlService from '../../services/sqlService'
 import { v4 as uuid } from 'uuid'
+import { ApplyCodeActionCommandResult } from 'typescript'
 
 class UserController {
     public path = '/app';
@@ -19,7 +20,9 @@ class UserController {
         this.router.get(`${this.path}`, checkToken, this.getApplicationById)
         this.router.get(`${this.path}/all`, checkToken, this.getAllApplications)
         this.router.get(`${this.path}/active`, checkToken, this.getActiveApplications)
+
         this.router.post(`${this.path}/create`, checkToken, this.createApp)
+        this.router.post(`${this.path}/update`, checkToken, this.updateApp)
     }
 
     createApp = async (req: express.Request, res: express.Response): Promise<express.Response> => {
@@ -40,6 +43,19 @@ class UserController {
             res.send({
                 id: finalApplication.id
             })
+        } catch(err) {
+            console.log(err)
+            return res.sendStatus(500)
+        }
+    }
+
+    updateApp = async (req: express.Request, res: express.Response): Promise<express.Response> => {
+        const application: Application = req.body
+
+        try {
+            const result = await this.sql.update("applications", { id: application.id, userid: req.user.id }, application)
+            if(!result) 'Update Failed'
+            return res.sendStatus(200)
         } catch(err) {
             console.log(err)
             return res.sendStatus(500)

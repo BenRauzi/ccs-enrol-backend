@@ -27,20 +27,32 @@ class SqlService {
         }
     }
 
-    public async findOne(collection: string, item: any): Promise<any> {
+    public async findOne(collection: string, query: any): Promise<any> {
         const db = await this.mongo.connect()
         const dbo = db.db(this.dbSchema)
 
-        const res = await dbo.collection(collection).findOne(item)
+        const res = await dbo.collection(collection).findOne(query)
         return {...res, _id: undefined}
     }
 
-    public async findMany(collection: string, item: any): Promise<any> {
+    public async findMany(collection: string, query: any): Promise<any> {
         const db = await this.mongo.connect()
         const dbo = db.db(this.dbSchema)
 
-        const res: Array<any> = await dbo.collection(collection).find(item).toArray()
+        const res: Array<any> = await dbo.collection(collection).find(query).toArray()
         return res.map(item => ({...item, _id: undefined}))
+    }
+
+    public update = async (collection: string, query: any, item: any): Promise<boolean> => {
+        try {
+            const db = await this.mongo.connect()
+            const dbo = db.db(this.dbSchema)
+    
+            await dbo.collection(collection).updateOne(query, { $set: item})
+            return true
+        } catch {
+            return false
+        }
     }
 }
 
