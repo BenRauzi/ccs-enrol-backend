@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import * as dotenv from "dotenv"
 import * as mongodb from 'mongodb'
 
