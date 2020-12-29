@@ -18,6 +18,7 @@ class UserController {
     public intializeRoutes(): void {
         this.router.get(`${this.path}`, checkToken, this.getApplicationById)
         this.router.get(`${this.path}/all`, checkToken, this.getAllApplications)
+        this.router.get(`${this.path}/active`, checkToken, this.getActiveApplications)
         this.router.post(`${this.path}/create`, checkToken, this.createApp)
     }
 
@@ -67,6 +68,15 @@ class UserController {
         }
     }
 
+    getActiveApplications = async(req: express.Request, res: express.Response): Promise<express.Response> => {
+        try {
+            const applications: Array<Application> = await this.sql.findMany("applications", { status: 1})
+            return res.send(applications)
+        } catch(err) {
+            console.log(err)
+            return res.sendStatus(500)
+        }
+    }
 }
 
 export default UserController
