@@ -1,5 +1,4 @@
 interface ApplicationDetails {
-    id?: string;
     reasonForApplication: string;
     sesReferral?: string; //Child Reference to Special Education Services
     previousSchool?: string;

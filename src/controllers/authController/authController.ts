@@ -7,6 +7,7 @@ import { checkToken, jwtSign,  } from '../../Helpers/jwtHelper'
 import { hashPassword, verifyPassword } from "./authController.helper"
 
 import User from '../../models/User'
+import user from '../../models/Mocks/User'
 
 dotenv.config()
 
@@ -37,17 +38,21 @@ class AuthController {
     createUser = async (req: express.Request, res: express.Response): Promise<express.Response> => {
         const { username, password, firstName, lastName, email } = req.body
         try {
+            const usersWithSameName: Array<User> = await this.sql.findMany("users", { username: username })
+            if(usersWithSameName.length > 0) return res.sendStatus(500)
+
             const hashedPassword = await hashPassword(password)
             const userId: string = uuid()
 
-            await this.sql.query("INSERT into users (id, username, password, firstName, lastName, email) VALUES (?, ?, ?, ?, ?, ?)", [
-                userId,
+            await this.sql.insertOne("users", {
+                id: userId,
                 username,
-                hashedPassword,
+                password: hashedPassword,
                 firstName,
                 lastName,
-                email
-            ])
+                email,
+                accountType: 0
+            })
 
             return res.sendStatus(200)
         } catch (error) {
@@ -60,13 +65,8 @@ class AuthController {
         const { username, password } = req.body
 
         try {
-            const userInfo: Array<User> = await this.sql.query(`SELECT * FROM users WHERE username = ?`, [
-                username
-            ])
-            
-            if(userInfo.length === 0) return res.sendStatus(404)
-            const user: User = userInfo[0]
-
+            const user: User = await this.sql.findOne("users", { username: username })
+            if(!user) return res.sendStatus(404)
             const passwordIsValid = await verifyPassword(password, user.password)
             if(!passwordIsValid) return res.sendStatus(401)
 

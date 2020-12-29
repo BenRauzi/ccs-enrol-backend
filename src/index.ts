@@ -1,5 +1,5 @@
 import App from './app'
-import AppController from './controllers/appController/appController'
+// import AppController from './controllers/appController/appController'
 import AuthController from './controllers/authController/authController'
 import UserController from './controllers/userController/userController'
 import User from './models/User'
@@ -18,7 +18,7 @@ const app = new App(
   [
     new AuthController(sqlService),
     new UserController(sqlService),
-    new AppController(sqlService)
+    // new AppController(sqlService)
   ]
 )
  

@@ -13,7 +13,6 @@ interface Parent {
     workPhone: string;
     contactEmail: string;
     maritalStatus: number;
-    applicationId?: string;
 }   
 
 export default Parent

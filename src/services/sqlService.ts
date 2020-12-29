@@ -1,34 +1,45 @@
-import * as mysql from "mysql"
 import * as dotenv from "dotenv"
-import { QueryError } from 'mysql'
+import * as mongodb from 'mongodb'
 
 dotenv.config()
 
 class SqlService {    
-    connection: mysql.Connection
-    connectionConfig: mysql.ConnectionOptions = { 
-        host     :  process.env.DB_HOST,
-        user     :  process.env.DB_USER,
-        password :  process.env.DB_PW,
-        database :  process.env.DB_SCHEMA
-    }
 
+    dbUrl = process.env.DB_URL
+    dbSchema = process.env.DB_SCHEMA
+    mongo: mongodb.MongoClient
+    
     constructor() {
-        this.connection = mysql.createConnection(this.connectionConfig)
-
-        this.connection.connect((error) => {
-            if(error) console.log(error)
-            console.log("Connected to MySQL Server")
-        })
+       this.mongo = new mongodb.MongoClient(this.dbUrl, { useUnifiedTopology: true, connectTimeoutMS: 30000, keepAlive: true })
     }
 
-    public query(query: string, params: Array<any> = []): Promise<Array<any>> {
-        return new Promise<Array<any>>((resolve, reject) => {
-            this.connection.query(query, params, (error: QueryError, result: Array<any>) => {
-                if(error) reject(error)
-                resolve(result)
-            })
-        })
+    public async insertOne(collection: string, item: any): Promise<boolean> {
+
+        try {
+            const db = await this.mongo.connect()
+            const dbo = db.db(this.dbSchema)
+
+            await dbo.collection(collection).insertOne(item)
+            return true
+        } catch {
+            return false
+        }
+    }
+
+    public async findOne(collection: string, item: any): Promise<any> {
+        const db = await this.mongo.connect()
+        const dbo = db.db(this.dbSchema)
+
+        const res = await dbo.collection(collection).findOne(item)
+        return {...res, _id: undefined}
+    }
+
+    public async findMany(collection: string, item: any): Promise<any> {
+        const db = await this.mongo.connect()
+        const dbo = db.db(this.dbSchema)
+
+        const res: Array<any> = await dbo.collection(collection).find(item).toArray()
+        return res.map(item => ({...item, _id: undefined}))
     }
 }
 

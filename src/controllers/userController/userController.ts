@@ -25,7 +25,7 @@ class UserController {
 
     getUsers = async (req: express.Request, res: express.Response): Promise<express.Response> => {
         try {
-            const users: Array<User> = await this.sql.query("SELECT * FROM users")
+            const users: Array<User> = await this.sql.findMany("users", {})
 
             return res.send(users.map(user => ({...user, password: undefined})))
         } catch {
@@ -36,14 +36,10 @@ class UserController {
     getUserById = async (req: express.Request, res: express.Response): Promise<express.Response>  => {
         const id = req.query.id
         try {
-            const users: Array<User> = await this.sql.query(`SELECT * FROM users WHERE id = ?`, [
-                id
-            ])
+            const user: User = await this.sql.findOne("users", { id: id})
+            console.log(user)
+            if(user.id === undefined) return res.sendStatus(404)
 
-            if(users.length === 0) return res.sendStatus(404)
-
-            const user = users[0]
-            
             user.password = undefined
 
             res.send(user)
@@ -56,13 +52,10 @@ class UserController {
     getUserByUsername = async (req: express.Request, res: express.Response): Promise<express.Response> => {
         const username = req.query.username
         try {
-            const users: Array<User> = await this.sql.query(`SELECT * FROM users WHERE username = ?`, [
-                username
-            ])
+            const user: User= await this.sql.findOne("users", { username: username})
 
-            if(users.length === 0) return res.sendStatus(404)
+            if(user.id === undefined) return res.sendStatus(404)
 
-            const user = users[0]
             
             user.password = undefined
 
