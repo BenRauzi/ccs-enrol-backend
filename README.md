@@ -2,7 +2,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![Dependabot](https://badgen.net/dependabot/openlawnz/openlawnz-web/117378835=?icon=dependabot)
 
-Backend API for the management of an enrolment system for a Stage-integrated New Zealand school.
+Backend Express API for the management of an enrolment system for a Stage-integrated New Zealand school.
 
 Uses Typescript and MongoDB. Frontend: LINK (To be updated soon)
 
