@@ -15,7 +15,7 @@
     "url": "git+https://github.com/benrauzi/ccs-enrol-backend.git"
   },
   "author": "Ben Rauzi",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/benrauzi/ccs-enrol-backend/issues"
   },
