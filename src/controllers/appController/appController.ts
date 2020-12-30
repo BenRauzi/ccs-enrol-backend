@@ -1,18 +1,30 @@
 import * as express from 'express'
+import * as multer from "multer"
 import { checkToken } from '../../Helpers/jwtHelper'
 import Application from '../../models/Application'
 import SqlService from '../../services/sqlService'
 import { v4 as uuid } from 'uuid'
 import ApplicationSummary from '../../models/ApplicationSummary'
 
+import * as mongodb from 'mongodb'
+
+interface Document {
+    _id: mongodb.ObjectID;
+    type: string;
+    name: string;
+    userid: string;
+    applicationid: string;
+    file: string;
+}
+
 class UserController {
     public path = '/app';
     public router = express.Router();
     sql: SqlService;
+    uploads: multer.Multer
 
     constructor(sqlService: SqlService) {
         this.sql = sqlService
-
         this.intializeRoutes()
     }
 
@@ -24,6 +36,36 @@ class UserController {
 
         this.router.post(`${this.path}/create`, checkToken, this.createApp)
         this.router.post(`${this.path}/update`, checkToken, this.updateApp)
+
+        this.router.post(`${this.path}/update`, checkToken, this.updateApp)
+
+        this.router.post(`${this.path}/documents/upload`, checkToken, this.uploadFile)
+        this.router.get(`${this.path}/documents/get-single`, checkToken, this.getFile)
+        this.router.get(`${this.path}/documents`, checkToken, this.getFile)
+    }
+
+    uploadFile = (req: express.Request, res: express.Response): express.Response => {
+        const newFile: Document = { 
+            _id: new mongodb.ObjectID(), 
+            type: req.file.mimetype, 
+            userid: req.user.id, 
+            applicationid: req.body.applicationId, 
+            name: req.file.originalname, 
+            file: req.body.file
+        }
+
+        this.sql.insertOne("documents", newFile)
+        return res.sendStatus(200)
+    }
+
+    getFile = async (req: express.Request, res: express.Response): Promise<express.Response> => {
+        const file: Document = await this.sql.findOne("documents", { userid: req.user, name: req.body.name })
+        return res.send({ file })
+    }
+
+    getApplicationFiles = async (req: express.Request, res: express.Response): Promise<express.Response> => {
+        const files: Array<Document> = await this.sql.findMany("documents", { applicationid: req.body.applicationid })
+        return res.send({ files })
     }
 
     getUserApplications = async (req: express.Request, res: express.Response): Promise<express.Response> => {

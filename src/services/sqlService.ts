@@ -9,7 +9,7 @@ class SqlService {
     dbUrl = process.env.DB_URL
     dbSchema = process.env.DB_SCHEMA
     mongo: mongodb.MongoClient
-    
+
     constructor() {
         this.mongo = new mongodb.MongoClient(this.dbUrl, { useUnifiedTopology: true, connectTimeoutMS: 30000, keepAlive: true })
         this.mongo.connect()
