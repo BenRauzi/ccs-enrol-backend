@@ -33,7 +33,6 @@ class AuthController {
         this.router.post(`${this.path}/login`, this.login)
         this.router.post(`${this.path}/logout`, checkToken, this.logout)
         this.router.get(`${this.path}/verify`, checkToken, this.verify)
-
     }
 
     verify = async (req: express.Request, res: express.Response): Promise<express.Response> => {
